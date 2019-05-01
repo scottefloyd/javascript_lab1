@@ -4,23 +4,44 @@ let userHealth = 40;
 let grantHealth = 10;
 let wins = 0;
 let name = "";
+let damageAmount = null;
+let userDamage = 0;
+let attackDecision = "";
 
-let answer = prompt("Do you want to play a game?");
+function startGame() {
 
-if (answer.toLowerCase() === "yes") {
+  let answer = prompt("Do you want to play a game?");
 
-  let name = prompt("Great, what is your name?");
+  if (answer.toLowerCase() === "yes") {
+
+    name = prompt("Great, what is your name?");
+    startCombat();
+
+  }
+
+}
+
+function getDamage() {
+
+  return Math.floor(Math.random() * 5) + 1;
+
+}
+
+function startCombat() {
 
   while (userHealth > 0 && grantHealth > 0) {
 
-    userHealth = userHealth - (Math.floor(Math.random() * 2) + 1);
+    userDamage = getDamage();
 
-    console.log(`${name}'s health level is ${userHealth}`);
+    userHealth = userHealth - userDamage;
 
-    grantHealth = grantHealth - (Math.floor(Math.random() * 2) + 1);
+    console.log(`${name} suffered ${userDamage} damage and health is now ${userHealth}`);
 
-    console.log(`Grant's health level is ${grantHealth}`);
+    userDamage = getDamage();
 
+    grantHealth = grantHealth - userDamage;
+
+    console.log(`Grant suffered ${userDamage} damage and health is now ${grantHealth}`);
 
     if (userHealth <= 0) {
 
@@ -32,8 +53,6 @@ if (answer.toLowerCase() === "yes") {
     if (grantHealth <= 0) {
       wins++;
       grantHealth = 10;
-      console.log(grantHealth);
-
 
       if (wins === 3) {
         console.log(`${name} Wins!`);
@@ -41,11 +60,29 @@ if (answer.toLowerCase() === "yes") {
       }
     }
 
+    attackOption();
+
+    function attackOption() {
+
+      attackDecision = prompt("Would you like to attack or quit?");
+
+    }
+
+    if (attackDecision === "attack") {
+      continue;
+    } else if (attackDecision === "quit") {
+      return;
+    } else if (attackDecision === "") {
+      console.log("Please enter a valid value");
+      attackOption();
+      
+    } else {
+      return;
+    }
+
   }
 
-
-} else {
-
-  console.log("Okay, maybe later.");
-
 }
+
+
+startGame();
